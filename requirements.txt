@@ -1,5 +1,5 @@
 beautifulsoup4 # scraper
-flask # web server
+flask[async] # web server
 flask_cors # allow js access
-httpx # http requests
+grequests # async requests
 lxml # optimize scraping

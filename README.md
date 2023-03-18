@@ -4,15 +4,15 @@
 ```bash
 # clone and go to dir
 git clone https://github.com/GDSC-Budget-App/backend && cd backend
-# make virtual env, activate, and install dependencies
+# make virtual env, activate, and install deps
 python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
 ```
 
-# Update local
+## Update local
 ```bash
-# update with remote, ensure venv activated
+# update with remote, activate venv
 git pull && source venv/bin/activate
-# install/upgrade dependencies
+# install/upgrade deps
 pip install -r requirements.txt --upgrade
 ```
 
