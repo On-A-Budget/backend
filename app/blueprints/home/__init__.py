@@ -4,7 +4,7 @@ import json
 from bs4 import BeautifulSoup, SoupStrainer
 from flask import Blueprint
 
-from app import app
+from app import app, eb_auth
 
 home = Blueprint("home", __name__)
 
@@ -14,8 +14,13 @@ def index():
     return "Hello, World!"
 
 
-@home.route("/ids")
-def ids():
-    with open("data.json") as json_file:
-        data = json.load(json_file)
+@home.route("/events")
+def events():
+    with open("data.json") as f:
+        data = json.load(f)
     return data
+
+
+@home.route("/events/<int:id>")
+def events_id(id: int):
+    return eb_auth.get_event(str(id))

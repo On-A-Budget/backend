@@ -1,5 +1,7 @@
 beautifulsoup4 # scraper
+eventbrite # wrapper api
 flask[async] # web server
 flask_cors # allow js access
 grequests # async requests
 lxml # optimize scraping
+python-dotenv # env vars

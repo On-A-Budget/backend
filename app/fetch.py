@@ -1,8 +1,8 @@
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 from grequests import get, map
 
 
-def scrape_page(page):
+def scrape_ids(page):
     ids = []
     soup = BeautifulSoup(page.text, "lxml")
     for i in soup.find_all(
@@ -12,17 +12,16 @@ def scrape_page(page):
         },
     ):
         ids.append(i.find("span")["class"][0][28:40])
-    return dict(enumerate(ids))
+    return ids
 
 
-def get_data():
+def get_ids(p=5):
     fin = {}
     rs = (
         get(f"https://www.eventbrite.com/d/ca--santa-cruz/all-events/?page={i}")
-        for i in range(1, 6)
+        for i in range(1, p + 1)
     )
     stack = map(rs)
-    fin = {}
     for i, j in enumerate(stack):
-        fin[i + 1] = scrape_page(j)
+        fin[i + 1] = scrape_ids(j)
     return fin

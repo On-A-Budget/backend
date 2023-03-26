@@ -1,15 +1,19 @@
 import json
 
+import gevent.monkey
+
+# fix ssl inf recursion error
+gevent.monkey.patch_all()
+
+from eventbrite import Eventbrite
 from flask import Flask
 from flask_cors import CORS
 
 from config import Config
 
-from .fetch import get_data
-
 
 def create_app():
-    print("starting app...", end="", flush=True)
+    print("init app...", end="", flush=True)
     app = Flask(__name__)
     app.config.from_object(Config)
     print("done")
@@ -18,12 +22,9 @@ def create_app():
 
 app = create_app()
 
-print("defining helpers...", end="", flush=True)
-# helper funcs go here
-
 
 def register_blueprints(app):
-    print("registering blueprints...", end="", flush=True)
+    print("register blueprints...", end="", flush=True)
     from .blueprints.home import home
 
     app.register_blueprint(home)
@@ -31,23 +32,27 @@ def register_blueprints(app):
 
 
 def setup_firebase(app):
-    print("setting up firebase...", end="", flush=True)
+    print("auth with firestore...", end="", flush=True)
     # firebase stuff
     print("done")
 
 
-print("done")
-
 with app.app_context():
-    print("adding extensions...", end="", flush=True)
-    CORS(
-        app
-    )  # allow js to send requests (https://flask-cors.readthedocs.io/en/latest/)
+    print("add extensions...", end="", flush=True)
+    CORS(app)
     print("done")
     setup_firebase(app)
-    register_blueprints(app)
-    from . import fetch
 
-    data = get_data()
+    print("fetch event ids...", end="", flush=True)
+    from app.fetch import get_ids
+
+    data = get_ids()
     with open("data.json", "w") as f:
         json.dump(data, f)
+    print("done")
+
+    print("auth eventbrite...", end="", flush=True)
+    eb_auth = Eventbrite(app.config["EVENTBRITE_TOKEN"])
+    print("done")
+
+    register_blueprints(app)
