@@ -43,16 +43,16 @@ with app.app_context():
     print("done")
     setup_firebase(app)
 
+    print("auth eventbrite...", end="", flush=True)
+    eb_auth = Eventbrite(app.config["EVENTBRITE_TOKEN"])
+    print("done")
+
     print("fetch event ids...", end="", flush=True)
     from app.fetch import get_ids
 
     data = get_ids()
     with open("data.json", "w") as f:
         json.dump(data, f)
-    print("done")
-
-    print("auth eventbrite...", end="", flush=True)
-    eb_auth = Eventbrite(app.config["EVENTBRITE_TOKEN"])
     print("done")
 
     register_blueprints(app)

@@ -23,4 +23,4 @@ def events():
 
 @home.route("/events/<int:id>")
 def events_id(id: int):
-    return eb_auth.get_event(str(id))
+    return eb_auth.get_event(str(id), expand=["ticket_availability"])
