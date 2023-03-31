@@ -2,7 +2,7 @@
 ## Initial setup
 
 ```bash
-git clone https://github.com/GDSC-Budget-App/backend && cd backend
+git clone https://github.com/On-A-Budget/backend && cd backend
 python -m venv venv && source venv/bin/activate && pip install -r requirements.txt
 ```
 
